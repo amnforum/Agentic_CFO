@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% block title %}AI Chat - Financial AI Platform{% endblock %}
+
+{% block content %}
+<style>
+body {
+  background: linear-gradient(123deg,#f6f9fb 0%,#e9edf1 60%,#d0e7ed 100%);
+}
+.profin-chat-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 34px 0 18px 0;
+}
+.profin-chat-card {
+  background: #fff;
+  border-radius: 1.15rem;
+  box-shadow: 0 3px 28px 0 rgba(64,74,120,0.09);
+  padding: 0;
+  border: none;
+  overflow: hidden;
+}
+.profin-chat-header {
+  background: linear-gradient(92deg,#247bb3 10%,#8dd0ee 85%);
+  color: #17314b;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 1.18rem;
+  font-weight: 700;
+  padding: 1.1rem 1.4rem 1rem 1.4rem;
+  border-bottom: 1px solid #eceef3;
+  letter-spacing: 0.25px;
+}
+.profin-badge-ai {
+  background: #35b481;
+  color: #fff;
+  font-size: 0.93rem;
+  font-weight: 700;
+  border-radius: 1em;
+  padding: 0.23em 1.05em 0.18em 1.10em;
+  margin-left: auto;
+  box-shadow: 0 2px 13px #0bc99c0c;
+  letter-spacing: .08em;
+}
+
+/* Chat scrollbox */
+.profin-chat-messages {
+  background: #f5fafc;
+  border-radius: 0 0 1.1rem 1.1rem;
+  padding: 1rem 1.25rem;
+  height: 340px;
+  overflow-y: auto;
+  font-size: 1.08rem;
+  color: #2a485d;
+  border: none;
+}
+
+/* Message bubbles */
+.profin-bubble-user, .profin-bubble-bot {
+  padding: 0.85em 1.10em;
+  border-radius: 1.03em 1em 1.15em 0.7em;
+  font-size: 1.05rem;
+  margin-bottom: .5em;
+  max-width: 78%;
+  display: inline-block;
+  word-break: break-word;
+}
+.profin-bubble-user {
+  background: linear-gradient(95deg,#2066bd 8%,#bfe4f9 95%);
+  color: #fff;
+  margin-left: auto;
+  text-align: right;
+  margin-bottom: 1.12em;
+  box-shadow: 0 3px 14px #83d1e50c;
+}
+.profin-bubble-bot {
+  background: #ecf4f8;
+  color: #165080;
+  margin-right: auto;
+  text-align: left;
+  margin-bottom: 1.10em;
+  box-shadow: 0 2px 12px #809CB80a;
+}
+.profin-bubble-bot strong {color:#226aad;}
+.profin-chat-meta { color: #228299; font-size:0.98em;opacity:0.78;}
+.profin-bubble-bot .botpic-icn {vertical-align:-6px;margin-right:8px;}
+
+.profin-input-group {
+  display: flex;
+  align-items: stretch;
+  gap: 0.8rem;
+  padding: 1.2rem 1.4rem 1rem 1.4rem;
+  border-top: 1px solid #e5eaf0;
+  background: #f8fbfc;
+}
+
+.profin-chat-input {
+  flex: 1 1 77%;
+  border: 1.4px solid #bccfe8;
+  font-size: 1.07em;
+  border-radius: 2.2em;
+  color: #274369;
+  padding: .86em 1.35em;
+  outline: none; background: #f8fafb;
+  transition: border-color .09s;
+}
+.profin-chat-input:focus { border-color: #3cbbb7; background: #f4fcfc; }
+
+/* Send Button Spacing and Tone */
+.profin-sendbtn {
+  background: linear-gradient(95deg,#3db187 5%,#2e7cc5 98%);
+  border-radius: 2em;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.08rem;
+  box-shadow: 0 3px 14px #0bd3cc1b;
+  padding: .69em 1.5em;
+  transition: background 0.15s, transform 0.13s;
+  margin-left: .0em;
+}
+.profin-sendbtn:hover { background:linear-gradient(91deg,#1db8ac 16%,#2557a2 97%); transform:scale(1.06);}
+.profin-quick-box {
+  background: linear-gradient(94deg, #eaf7fd 60%, #e1f3fa 100%);
+  border-top: 1.5px solid #eaeaea;
+  border-right: none; border-left:none; border-bottom:none;
+  border-radius: 0 0 1.1rem 1.1rem;
+  padding: 1rem 1.4rem 0.8rem 1.4rem;
+  margin-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85em;
+}
+.profin-quick-btn {
+  background: #e7f6ff;
+  color: #185e86;
+  border: 1.1px solid #b8e6f3;
+  border-radius: 1.02em;
+  font-size: .99em;
+  padding: .47em 1.09em; 
+  transition: all .12s; display:inline-block;
+}
+.profin-quick-btn:hover, .profin-quick-btn:focus {
+  background: linear-gradient(95deg,#d9faea 20%,#ace2f6 80%);
+  color: #186eac;
+  border-color: #3ecae2;
+}
+
+@media (max-width:1000px){
+  .profin-chat-wrap{padding-top:18px;}
+}
+@media (max-width:800px){
+  .profin-chat-wrap{padding:3vw;}
+  .profin-chat-card{border-radius:.95rem;}
+  .profin-chat-header{font-size:1.06rem;padding:.95rem 1rem .8rem .9rem;}
+  .profin-bubble-user,.profin-bubble-bot{font-size:1em;}
+}
+</style>
+
+<div class="profin-chat-wrap">
+  <div class="profin-chat-card shadow-sm">
+    <div class="profin-chat-header">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f916.svg" width="34" class="me-2 botpic-icn" alt="Bot"/>
+      <span>FinBot: Professional AI Tax &amp; Investment Assistant</span>
+      <span class="profin-badge-ai ms-auto">LIVE</span>
+    </div>
+    <div id="chatMessages" class="profin-chat-messages">
+      <div class="profin-bubble-bot">
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f916.svg" class="botpic-icn" width="22" alt="Bot"/>
+        <strong>
+          Welcome to your secure financial chat platform.<br>
+          I'm FinBot—here for tax, investment, loans, and money decisions.
+        </strong>
+        <div class='profin-chat-meta mt-1'>
+          Try: <i class="fa-solid fa-arrow-right"></i> "Show my ITR savings", "Which SIPs are lagging?", "Quick tax tip", "Portfolio risks?"
+        </div>
+      </div>
+    </div>
+    <div class="profin-input-group">
+      <input type="text" id="chatInput" class="profin-chat-input" placeholder="Type a tax or finance question..." maxlength="500" autocomplete="off"/>
+      <button class="profin-sendbtn" id="sendBtn" onclick="sendMessage()">
+        <span style="font-size:1.15em;">Send <i class="fa-solid fa-paper-plane"></i></span>
+      </button>
+    </div>
+    <div class="profin-quick-box mb-0 pb-1">
+      <button class="profin-quick-btn" onclick="useQuestion('🧾 Generate my ITR for this year.')">🧾 Generate ITR</button>
+      <button class="profin-quick-btn" onclick="useQuestion('How can I optimize my tax for FY2025?')">Optimize Tax</button>
+      <button class="profin-quick-btn" onclick="useQuestion('🧮 What tax can I save by investing ₹2L in 80C?')">80C Calculator</button>
+      <button class="profin-quick-btn" onclick="useQuestion('📈 Which SIP underperformed this year?')">SIP Watch</button>
+      <button class="profin-quick-btn" onclick="useQuestion('🏆 Any new mutual fund highlights?')">MF Highlights</button>
+      <button class="profin-quick-btn" onclick="useQuestion('💡 Quick ways to cut taxes?')">Quick Tax Save</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('chatInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') sendMessage();
+});
+function useQuestion(question) {
+    document.getElementById('chatInput').value = question;
+    sendMessage();
+}
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+    input.value = '';
+    addBubble('user', message);
+    const typingId = addBubble('bot', "<span class='profin-chat-meta'><i class='fa-solid fa-circle-notch fa-spin'></i> Typing...</span>", true);
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
+        });
+        const result = await response.json();
+        document.getElementById(typingId).remove();
+        addAIResponseBubble(result);
+    } catch (error) {
+        document.getElementById(typingId).remove();
+        addBubble('bot', '❌ Sorry, I encountered an error. Please try again.');
+    }
+}
+function addBubble(sender, message, isTyping=false) {
+    const chat = document.getElementById('chatMessages');
+    const bubble = document.createElement('div');
+    const id = 'msg-' + Date.now() + Math.floor(1000*Math.random());
+    bubble.id = id;
+    bubble.className = sender === 'user' ? "mb-2 text-end" : "mb-2 text-start";
+    bubble.innerHTML =
+        `<div class="profin-bubble-${sender}">
+            ${sender==='bot'? `<img class="botpic-icn" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f916.svg" width="18" alt="Bot" style="margin-right:7px;">`:""}
+            <span>${isTyping ? message : formatMessage(message)}</span>
+        </div>`;
+    chat.appendChild(bubble);
+    chat.scrollTop = chat.scrollHeight;
+    return id;
+}
+function addAIResponseBubble(result) {
+    const text = result.final_answer || 'No response generated';
+    addBubble('bot', text);
+}
+function formatMessage(message) {
+    return message
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\n/g, "<br>")
+      .replace(/₹(\d+)/g, "<span class='fw-bold text-success'>₹$1</span>")
+      .replace(/🧾/g,'<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9fe.svg" width="18" style="vertical-align:-4px;">')
+      .replace(/🪙/g,'<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa99.svg" width="18" style="vertical-align:-4px;">')
+      .replace(/💸/g,'<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4b8.svg" width="18" style="vertical-align:-4px;">')
+      .replace(/🛡️/g,'<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6e1.svg" width="18" style="vertical-align:-4px;">')
+      .replace(/👾/g,'<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f47e.svg" width="18" style="vertical-align:-4px;">')
+      .replace(/🏦/g,'<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3e6.svg" width="18" style="vertical-align:-4px;">')
+      .replace(/🧮/g,'<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9ee.svg" width="18" style="vertical-align:-4px;">')
+      .replace(/🏡/g,'<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3e1.svg" width="18" style="vertical-align:-4px;">')
+      .replace(/🔥/g,'<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f525.svg" width="18" style="vertical-align:-4px;">');
+}
+</script>
+{% endblock %}

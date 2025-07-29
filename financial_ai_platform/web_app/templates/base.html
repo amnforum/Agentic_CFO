@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Financial AI Platform{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,600,700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            min-height: 100vh; height: 100%;
+            margin: 0; padding: 0;
+        }
+        body {
+            display: flex; flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(135deg,#152238 0%,#23344d 50%,#212a3a 100%);
+            font-family: "Inter", Arial, Helvetica, sans-serif;
+            color: #f2f6fd;
+        }
+        main.container {
+            flex: 1 1 auto;
+            padding-bottom: 4rem;
+        }
+        .navbar {
+            background: rgba(35,50,77,0.84)!important;
+            box-shadow: 0 3px 16px #15324819;
+            border-bottom: 1.5px solid #1ad6ffe0;
+            backdrop-filter: blur(7px) saturate(120%);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #65e2fb !important;
+            background: linear-gradient(100deg,#12c2e9 30%,#c471ed 70%,#f64f59 110%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-fill-color: transparent;
+            font-size: 1.34rem;
+            letter-spacing: .7px;
+        }
+        .navbar .nav-link {
+            color: #a6f1fa !important;
+            font-weight: 500;
+            position: relative;
+            margin-left: 0.5rem; margin-right:0.5rem;
+            transition: color .14s;
+        }
+        .navbar .nav-link.active,
+        .navbar .nav-link:focus,
+        .navbar .nav-link:hover {
+            color: #fad166 !important;
+            text-shadow: 0 1px 8px #badbdd99;
+        }
+        .navbar .nav-link i {
+            margin-right: 6px;
+        }
+        .navbar .user-tag {
+            background: rgba(42,80,120,0.15);
+            border-radius: 1.8em;
+            color: #83ffec;
+            font-weight: 600;
+            padding: 0.35em 1.05em;
+            margin-left: 0.95em;
+            border: 1px solid #47ede744;
+        }
+        .navbar-toggler {
+            border: none;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,<svg width='32' height='32' viewBox='0 0 20 20' fill='teal' xmlns='http://www.w3.org/2000/svg'><rect y='3' width='20' height='2'/><rect y='9' width='20' height='2'/><rect y='15' width='20' height='2'/></svg>");
+        }
+        /* --- Modern Glassy Footer --- */
+        .footer-sticky-dark {
+            position: fixed; left: 0; right: 0; bottom: 0;
+            width: 100vw;
+            background: rgba(33,37,48,0.97);
+            color: #bbfffa;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            padding: 0.45rem 0 0.2rem 0;
+            z-index: 100;
+            box-shadow: 0 -4px 18px rgba(70,220,220,0.06);
+            letter-spacing: 0.04rem;
+            border: none;
+        }
+        .footer-sticky-dark::before {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 2.5px;
+            background: linear-gradient(90deg,#2eeee47a 0%,#60e3f674 85%);
+            margin-bottom: 0.15rem;
+            opacity: 0.7;
+        }
+        .footer-sticky-dark img {
+            vertical-align: -4px;
+            margin: 0 0.2rem; border-radius: 8px;
+        }
+        @media (max-width: 700px) {
+            .footer-sticky-dark { font-size: 0.93rem; }
+            main.container { padding-bottom: 4.5rem; }
+            .navbar-brand { font-size: 1.13rem;letter-spacing:.2px;}
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('dashboard') if session.user_id else url_for('login') }}">
+                <img src="/static/logos/fi.svg" alt="Fi Logo" style="height: 38px;margin-right: 13px;border-radius: 11px;box-shadow:0 1px 12px #40befc33;">
+                <span>Financial AI Platform</span>
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    {% if session.user_id %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint=='dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint=='chat' %}active{% endif %}" href="{{ url_for('chat') }}">
+                                <i class="fas fa-comments"></i> AI Chat
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                                <span class="user-tag">{{ session.username }}</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' if category == 'success' else 'info' }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="footer-sticky-dark">
+        © 2025 Financial AI Platform &middot;
+        <img src="/static/logos/fi.svg" alt="Fi Money" width="22" title="Fi Money">
+        <span style="opacity:0.7;">Powered by ADK Kit &amp; Google Cloud</span>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

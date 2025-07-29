@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Register - Financial AI Platform{% endblock %}
+
+{% block content %}
+<style>
+.register-wrapper {
+  min-height: 74vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 1rem;
+}
+.register-card {
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  border-radius: 12px;
+  max-width: 440px;
+  width: 100%;
+  padding: 2.2rem 3rem 1.6rem 3rem;
+}
+.register-card .card-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #135182;
+  margin-bottom: 1.6rem;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+.register-card .form-label {
+  font-weight: 600;
+  color: #18537a;
+}
+.register-card .form-control {
+  border-radius: 0.4rem;
+  border: 1px solid #c1d3e0;
+  padding: 0.6rem 0.9rem;
+  font-size: 1.02rem;
+  background: #fafbfd;
+  color: #154360;
+  transition: border-color 0.2s ease-in-out;
+}
+.register-card .form-control:focus {
+  border-color: #2a7ccc;
+  box-shadow: 0 0 6px rgba(42,124,204,0.6);
+  background: #f0f6fb;
+  color: #0d2f56;
+}
+.register-card .btn-success {
+  background-color: #2a7ccc;
+  border: none;
+  border-radius: 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0.7rem;
+  width: 100%;
+  margin-top: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+.register-card .btn-success:hover {
+  background-color: #245ea7;
+}
+.register-card .text-center {
+  margin-top: 1.35rem;
+  font-size: 0.96rem;
+  color: #4378a4;
+}
+.register-card .text-center a {
+  color: #2a7ccc;
+  font-weight: 600;
+  text-decoration: none;
+}
+.register-card .text-center a:hover {
+  text-decoration: underline;
+}
+@media (max-width: 480px) {
+  .register-card {
+    padding: 1.3rem 1rem 1.1rem 1rem;
+    max-width: 100%;
+  }
+  .register-card .card-title {
+    font-size: 1.4rem;
+  }
+}
+</style>
+
+<div class="register-wrapper">
+  <div class="register-card card">
+    <div class="card-body">
+      <h2 class="card-title">📝 Create your Account</h2>
+      <form method="POST" autocomplete="off">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" name="username" class="form-control" required autofocus>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="phone_number" class="form-label">Phone Number
+            <span class="text-muted" style="font-size:0.92em;">(for Fi MCP demo)</span>
+          </label>
+          <input type="text" id="phone_number" name="phone_number" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Create Account</button>
+        <div class="text-center">
+          Already have an account?
+          <a href="{{ url_for('login') }}">Login here</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

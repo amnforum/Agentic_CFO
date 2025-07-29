@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fi MCP Server - Success</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+        .endpoint {
+            background: #f8f9fa;
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .test-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0.25rem;
+            font-size: 0.8rem;
+        }
+        .test-btn:hover {
+            background: #0056b3;
+        }
+        #results {
+            margin-top: 2rem;
+            text-align: left;
+            max-height: 400px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✅ Login Successful!</h1>
+        <p>Fi MCP Server is now authenticated and ready to serve financial data.</p>
+        
+        <h3>Available API Endpoints:</h3>
+        <div class="endpoint">GET /api/fetch-net-worth <button class="test-btn" onclick="testEndpoint('/api/fetch-net-worth')">Test</button></div>
+        <div class="endpoint">GET /api/fetch-credit-report <button class="test-btn" onclick="testEndpoint('/api/fetch-credit-report')">Test</button></div>
+        <div class="endpoint">GET /api/fetch-epf-details <button class="test-btn" onclick="testEndpoint('/api/fetch-epf-details')">Test</button></div>
+        <div class="endpoint">GET /api/fetch-mutual-fund-transactions <button class="test-btn" onclick="testEndpoint('/api/fetch-mutual-fund-transactions')">Test</button></div>
+        <div class="endpoint">GET /api/fetch-bank-transactions <button class="test-btn" onclick="testEndpoint('/api/fetch-bank-transactions')">Test</button></div>
+        <div class="endpoint">GET /api/calculate-sip-performance <button class="test-btn" onclick="testEndpoint('/api/calculate-sip-performance')">Test</button></div>
+
+        <div id="results"></div>
+        
+        <p style="margin-top: 2rem;">
+            <a href="http://localhost:5000" style="color: #667eea;">Go to Financial AI Platform →</a>
+        </p>
+    </div>
+
+    <script>
+        async function testEndpoint(url) {
+            const resultsDiv = document.getElementById('results');
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                resultsDiv.innerHTML = `<h4>Response from ${url}:</h4><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultsDiv.innerHTML = `<h4>Error testing ${url}:</h4><p style="color: red;">${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

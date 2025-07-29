@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block title %}Login - Financial AI Platform{% endblock %}
+
+{% block content %}
+<style>
+.login-wrapper {
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+.login-card {
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  max-width: 420px;
+  width: 100%;
+  padding: 2.5rem 3rem 2.3rem 3rem;
+}
+.login-card .card-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #134e7f;
+  margin-bottom: 1.8rem;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+.login-card .form-label {
+  font-weight: 600;
+  color: #18537a;
+}
+.login-card .form-control {
+  border-radius: 0.4rem;
+  border: 1px solid #c1d3e0;
+  padding: 0.6rem 0.9rem;
+  font-size: 1.02rem;
+  background: #fafbfd;
+  color: #154360;
+  transition: border-color 0.2s ease-in-out;
+}
+.login-card .form-control:focus {
+  border-color: #2a7ccc;
+  box-shadow: 0 0 6px rgba(42,124,204,0.6);
+  background: #f0f6fb;
+  color: #0d2f56;
+}
+.login-card button.btn-primary {
+  background-color: #2a7ccc;
+  border: none;
+  border-radius: 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0.7rem;
+  width: 100%;
+  margin-top: 1.3rem;
+  transition: background-color 0.3s ease;
+}
+.login-card button.btn-primary:hover {
+  background-color: #245ea7;
+}
+.login-card .text-center {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #4a6e89;
+}
+.login-card .text-center a {
+  color: #2a7ccc;
+  font-weight: 600;
+  text-decoration: none;
+}
+.login-card .text-center a:hover {
+  text-decoration: underline;
+}
+.login-demo-credentials {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #4a6e89;
+  background: #e9f1f8;
+  padding: 1.1rem 1.4rem;
+  border-radius: 0.6rem;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.login-demo-credentials strong {
+  color: #245ea7;
+}
+@media (max-width: 480px) {
+  .login-card {
+    padding: 2rem 1.6rem 1.8rem 1.6rem;
+    max-width: 100%;
+  }
+  .login-card .card-title {
+    font-size: 1.5rem;
+  }
+}
+</style>
+
+<div class="login-wrapper">
+  <div class="login-card card">
+    <div class="card-body">
+      <h2 class="card-title">🏦 Login to Your Account</h2>
+      <form method="POST" autocomplete="off">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" name="username" class="form-control" required autofocus>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label d-flex justify-content-between">
+            <span>Password</span>
+            <!-- You may add forget password link here -->
+          </label>
+          <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <div class="text-center">
+          Don't have an account? <a href="{{ url_for('register') }}">Create one</a>
+        </div>
+      </form>
+      <div class="login-demo-credentials">
+        <p><strong>Demo Credentials:</strong> Username: <code>demo</code> | Password: <code>password</code></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
